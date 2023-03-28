@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Todo_List_KH.Models
 {
-    public class Task
+    public class ToDoItem
     {
         [Key]
         public int Id { get; set; }
