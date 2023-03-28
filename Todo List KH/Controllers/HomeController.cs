@@ -1,25 +1,94 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using Todo_List_KH.AppContext;
 using Todo_List_KH.Models;
+using Todo_List_KH.Models.Application;
 
 namespace Todo_List_KH.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        WebAppContext webAppContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(WebAppContext webAppContext)
         {
-            _logger = logger;
+            this.webAppContext = webAppContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(DatePickerModel datePickerModel, string? message, DateTime? dateTime)
         {
+            //var toDoItemsList = from t in webAppContext.ToDoItems
+            //                    where t.ExecutionTime > DateTime.Now
+            //                    && t.IsCompleted == false
+            //                    orderby t.ExecutionTime ascending
+            //                    select new
+            //                    {
+            //                        t.Id,
+            //                        t.Name,
+            //                        t.ExecutionTime,
+            //                        t.IsCompleted
+            //                    };
+
+            ViewBag.pickedDate = null;
+
+            if (!String.IsNullOrWhiteSpace(datePickerModel.DateTime.ToString()) && String.IsNullOrWhiteSpace(dateTime.ToString()))
+            {
+                ViewBag.pickedDate = datePickerModel.DateTime.Date.ToShortDateString();
+                List<ToDoItem> toDoListInPickedDate = webAppContext.ToDoItems.Where
+                (
+                    x => x.ExecutionTime.Date.Equals(datePickerModel.DateTime.Date)
+                ).OrderBy
+                (
+                    x => x.ExecutionTime
+                ).ToList();
+                if (toDoListInPickedDate.Count().Equals(0))
+                {
+                    ViewBag.toDoListInPickedDate = null;
+                }
+                else
+                {
+                    ViewBag.toDoListInPickedDate = toDoListInPickedDate;
+                }
+            }
+            else if (!String.IsNullOrWhiteSpace(dateTime.ToString()))
+            {
+                ViewBag.pickedDate = dateTime.ToString().Substring(0,dateTime.ToString().IndexOf(" "));
+                List<ToDoItem> toDoListInPickedDate = webAppContext.ToDoItems.Where
+                (
+                    x => x.ExecutionTime.Date.Equals(dateTime)
+                ).OrderBy
+                (
+                    x => x.ExecutionTime
+                ).ToList();
+                if (toDoListInPickedDate.Count().Equals(0))
+                {
+                    ViewBag.toDoListInPickedDate = null;
+                }
+                else
+                {
+                    ViewBag.toDoListInPickedDate = toDoListInPickedDate;
+                }
+            }
+
+            List<ToDoItem> theFastestTasksToDo = webAppContext.ToDoItems.Where
+                (
+                    x => x.ExecutionTime > DateTime.Now
+                    && x.IsCompleted.Equals(false)
+                ).OrderBy
+                (
+                    x => x.ExecutionTime
+                ).Take(5).ToList();
+
+            ViewBag.theFastestTasksToDo = theFastestTasksToDo;
+
+            if (message is not null)
+            {
+                ViewData["Message"] = message;
+            }
+
             return View();
         }
 

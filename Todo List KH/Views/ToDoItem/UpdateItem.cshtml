@@ -1,0 +1,41 @@
+﻿@model ToDoItem
+@{
+    ViewData["Title"] = "Aktualizacja zadania";
+    Layout = "_Layout";
+}
+<div style="display: flex; align-self: center; justify-content: center; flex-direction: row; margin-top: 8%; min-width: 50%; min-height:50%">
+    <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex">
+        <legend style="margin: 5px;"><i>Formularz aktualizacji zadania</i></legend>
+        @using (Html.BeginForm("UpdateItem", "ToDoItem", FormMethod.Post))
+        {
+            <table style=" margin-left:auto; margin-right:auto">
+                <tr>
+                    <td>@Html.TextBoxFor(x => x.Id, new { type = "hidden", value = Model.Id })</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.Label("Nazwa")</b></td>
+                </tr>
+                <tr>
+                    <td>@Html.TextBoxFor(x => x.Name, new { type = "text", required = "Podaj nazwę zadania", value = Model.Name, style = "min-width:350px" })</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.Label("Data")</b></td>
+                </tr>
+                <tr>
+                    <td><input style="min-width:350px" asp-for="ExecutionTime" type="datetime-local" value="@Model.ExecutionTime.ToString("s")" /></td>
+                </tr>
+                <tr>
+                    <td>@Html.TextBoxFor(x => x.IsCompleted, new { type = "hidden", value = Model.IsCompleted })</td>
+                </tr>
+            </table>
+            <button style="background-color: dodgerblue; color: white; border-radius: 10px; border-color: aliceblue; font-size: 20px; min-width: 350px" type="submit">Zatwierdź zmiany</button>
+        }
+    </fieldset>
+</div>
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-warning">
+        <b><i>@ViewData["Message"]</i></b>
+    </div>
+}
+

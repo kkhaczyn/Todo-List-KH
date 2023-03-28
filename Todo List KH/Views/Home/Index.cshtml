@@ -1,8 +1,99 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Todo_List_KH.Models.Application.DatePickerModel
+@{
+    ViewData["Title"] = "Strona główna";
+    Layout = "_Layout";
+}
+<div style="display: flex; align-self: center; justify-content: center; flex-direction: row; margin-top: 8%;">
+    <div style="align-self: center; justify-content: left; max-width: auto; margin-right:10px;">
+        <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex">
+            <legend style="margin: 5px;"><i>Wybierz datę</i></legend>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                <table style="margin: auto;">
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(x => x.DateTime, new { type = "Date" })
+                        </td>
+                    </tr>
+                </table>
+                <button style="background-color: dodgerblue; color: white; border-radius: 10px; border-color: aliceblue; font-size: 20px;" type="submit">Wczytaj zadania</button>
+            }
+        </fieldset>    
+        @if (ViewBag.pickedDate != null)
+        {
+            <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; margin-top: 50px; display: flex" >
+                <legend style="margin: 5px;"><i>Zadania z dnia: @ViewBag.pickedDate</i></legend>
+                @if (ViewBag.toDoListInPickedDate == null)
+                {
+                    <h3><b><i>Na ten dzień, nie zostały utworzone żadne zadania</i></b></h3>
+                }
+                else
+                {
+                    <table style="margin: auto;" class="table table table-striped table-borderless justify-content-center table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ToDoItem toDoItem in ViewBag.toDoListInPickedDate)
+                            {
+                                <tr>
+                                    <td>@toDoItem.Name</td>
+                                    <td>@toDoItem.ExecutionTime</td>
+                                    @if (toDoItem.IsCompleted)
+                                    {
+                                        <td>Ukończone</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Nieukończone</td>
+                                    }
+                                    <td><a href="@Url.Action("UpdateItem","ToDoItem", new { id = toDoItem.Id})">Zaktualizuj</a></td>
+                                    <td><a href="@Url.Action("DeleteItem","ToDoItem", new { id = toDoItem.Id})">Usuń</a></td>
+                                    <td><a href="@Url.Action("ChangeStatus","ToDoItem", new { id = toDoItem.Id})">Zmień status</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </fieldset>
+        }
+    </div>
+
+
+    <div style="align-self: center; justify-content: center; min-width: 20%; max-width: 35%; ">
+        <fieldset class="border border-dark" style="padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex " >
+            <legend style="margin: 5px;"><i>Zadania które są do wykonania w najbliższym czasie</i></legend>
+            <table class="table table table-striped table-borderless justify-content-center table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ToDoItem toDoItem in ViewBag.theFastestTasksToDo)
+                    {
+                        <tr>
+                            <td>@toDoItem.Name</td>
+                            <td>@toDoItem.ExecutionTime</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-success">
+        <b><i>@ViewData["Message"]</i></b>
+    </div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
