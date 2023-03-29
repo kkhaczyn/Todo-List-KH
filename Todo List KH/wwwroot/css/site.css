@@ -80,3 +80,45 @@ nav {
 a:hover, button:hover{
     cursor:pointer;
 }
+#notificationBox {
+    height: 270px;
+    width: 330px;
+    border: 2px solid dodgerblue;
+    position: absolute;
+    background-color: deepskyblue;
+    text-align: center;
+    animation-name: fadeInOut;
+    animation-duration: 10s;
+    animation-fill-mode: forwards;
+    margin-left:70%;
+    /*margin-right:30%;*/
+}
+
+@keyframes fadeInOut {
+    0%{
+        opacity: 0.5;
+        transform:translateX(-10%);     
+    }
+    25% {
+        opacity: 1;
+        transform: translateX(-35%);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-35%);   
+    }
+    100% {
+        display: none;
+        opacity: 0;
+        transform: translateX(10%);           
+    }
+}
+
+#notificationBox h3 {
+    background-color:dodgerblue;
+    color:white;
+}
+
+.alert {
+    margin-top:10px;
+}

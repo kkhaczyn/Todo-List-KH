@@ -30,10 +30,9 @@ namespace Todo_List_KH.Controllers
             //                        t.Name,
             //                        t.ExecutionTime,
             //                        t.IsCompleted
-            //                    };
+            //                    }
 
-            ViewBag.pickedDate = null;
-
+            //tasks for specific day
             if (!String.IsNullOrWhiteSpace(datePickerModel.DateTime.ToString()) && String.IsNullOrWhiteSpace(dateTime.ToString()))
             {
                 ViewBag.pickedDate = datePickerModel.DateTime.Date.ToShortDateString();
@@ -73,6 +72,7 @@ namespace Todo_List_KH.Controllers
                 }
             }
 
+            //the fastest tasks to do
             List<ToDoItem> theFastestTasksToDo = webAppContext.ToDoItems.Where
                 (
                     x => x.ExecutionTime > DateTime.Now
@@ -82,12 +82,27 @@ namespace Todo_List_KH.Controllers
                     x => x.ExecutionTime
                 ).Take(5).ToList();
 
-            ViewBag.theFastestTasksToDo = theFastestTasksToDo;
+            if (theFastestTasksToDo != null)
+            {
+                ViewBag.theFastestTasksToDo = theFastestTasksToDo;
+                //notifications
+                ViewBag.notifications = theFastestTasksToDo.Take(2);
+            }
+            else
+            {
+                ViewBag.theFastestTasksToDo = theFastestTasksToDo;
+                //notifications
+                ViewBag.notifications = null;
+            }
 
+            //message to show
             if (message is not null)
             {
                 ViewData["Message"] = message;
             }
+
+            
+            
 
             return View();
         }

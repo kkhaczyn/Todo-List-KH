@@ -3,7 +3,36 @@
     ViewData["Title"] = "Strona główna";
     Layout = "_Layout";
 }
-<div style="display: flex; align-self: center; justify-content: center; flex-direction: row; margin-top: 8%;">
+
+<!--Page Content-->
+<div style="display: flex; align-self: center; justify-content: center; flex-direction: row; margin-top:4%;">
+    <!--Notifications-->
+    <div id="notificationBox" class="box-shadow">
+        <h3>POWIADOMIENIE</h3>
+        @if (ViewBag.notifications is not null)
+        {
+            int i = 0;
+            <h5>Twoje najbliższe zadanie to:</h5>
+            @foreach (ToDoItem item in ViewBag.notifications)
+            {
+                if (i == 1)
+                {
+                    <hr />
+                    <h5>Następnym zadaniem będzie:</h5>
+
+                }
+                <span>@item.Name</span>
+                <br />
+                <span>@item.ExecutionTime</span>
+
+                i++;
+            }
+        }
+        else
+        {
+            <h2>Brak zadań do wykonania</h2>
+        }
+    </div>
     <div style="align-self: center; justify-content: left; max-width: auto; margin-right:10px; min-width:350px;">
         <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex">
             <legend style="margin: 5px;"><i>Wybierz datę</i></legend>
@@ -18,10 +47,10 @@
                 </table>
                 <button style="background-color: dodgerblue; color: white; border-radius: 10px; border-color: aliceblue; font-size: 20px;" type="submit">Wczytaj zadania</button>
             }
-        </fieldset>    
+        </fieldset>
         @if (ViewBag.pickedDate != null)
         {
-            <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; margin-top: 50px; display: flex" >
+            <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; margin-top: 50px; display: flex">
                 <legend style="margin: 5px;"><i>Zadania z dnia: @ViewBag.pickedDate</i></legend>
                 @if (ViewBag.toDoListInPickedDate == null)
                 {
@@ -68,25 +97,32 @@
 
 
     <div style="align-self: center; justify-content: center; min-width: 20%; max-width: 35%; ">
-        <fieldset class="border border-dark" style="padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex " >
+        <fieldset class="border border-dark" style="padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex ">
             <legend style="margin: 5px;"><i>Zadania które są do wykonania w najbliższym czasie</i></legend>
-            <table class="table table table-striped table-borderless justify-content-center table-bordered table-responsive">
-                <thead>
-                    <tr>
-                        <th>Nazwa</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (ToDoItem toDoItem in ViewBag.theFastestTasksToDo)
-                    {
+            @if (ViewBag.theFastestTasksToDo == null)
+            {
+                <h3><b><i>Brak zadań do wyświetlenia</i></b></h3>
+            }
+            else
+            {
+                <table class="table table table-striped table-borderless justify-content-center table-bordered table-responsive">
+                    <thead>
                         <tr>
-                            <td>@toDoItem.Name</td>
-                            <td>@toDoItem.ExecutionTime</td>
+                            <th>Nazwa</th>
+                            <th>Data</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (ToDoItem toDoItem in ViewBag.theFastestTasksToDo)
+                        {
+                            <tr>
+                                <td>@toDoItem.Name</td>
+                                <td>@toDoItem.ExecutionTime</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </fieldset>
     </div>
 </div>
