@@ -74,9 +74,8 @@ nav {
     font-size: 17px;
 }
 .table-bordered tbody tr:hover{
-    color: blue;
-    font-size: 20px;
-    font-style:italic;
+    color:black;
+    font-weight:bold;
 }
 a:hover, button:hover{
     cursor:pointer;

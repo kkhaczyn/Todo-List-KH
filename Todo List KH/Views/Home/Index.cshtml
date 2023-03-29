@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 <div style="display: flex; align-self: center; justify-content: center; flex-direction: row; margin-top: 8%;">
-    <div style="align-self: center; justify-content: left; max-width: auto; margin-right:10px;">
+    <div style="align-self: center; justify-content: left; max-width: auto; margin-right:10px; min-width:350px;">
         <fieldset class="border border-dark" style=" padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex">
             <legend style="margin: 5px;"><i>Wybierz datę</i></legend>
             @using (Html.BeginForm("Index", "Home", FormMethod.Post))
@@ -29,7 +29,7 @@
                 }
                 else
                 {
-                    <table style="margin: auto;" class="table table table-striped table-borderless justify-content-center table-bordered">
+                    <table style="margin: auto;max-height:400px;" class="table table table-striped table-borderless justify-content-center table-bordered table-responsive">
                         <thead>
                             <tr>
                                 <th>Nazwa</th>
@@ -70,7 +70,7 @@
     <div style="align-self: center; justify-content: center; min-width: 20%; max-width: 35%; ">
         <fieldset class="border border-dark" style="padding: 10px; display: flex; flex-direction: column; justify-items: center; place-items: center; align-self: center; display: flex " >
             <legend style="margin: 5px;"><i>Zadania które są do wykonania w najbliższym czasie</i></legend>
-            <table class="table table table-striped table-borderless justify-content-center table-bordered">
+            <table class="table table table-striped table-borderless justify-content-center table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th>Nazwa</th>
