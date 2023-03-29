@@ -13,13 +13,13 @@
                     <td>@Html.TextBoxFor(x => x.Id, new { type = "hidden" })</td>
                 </tr>
                 <tr>
-                    <td>@Html.Label("Nazwa")</td>
+                    <td><b>@Html.Label("Nazwa")</b></td>
                 </tr>
                 <tr>
                     <td>@Html.TextBoxFor(x => x.Name, new { type = "text", required = true, style = "min-width:350px" })</td>
                 </tr>
                 <tr>
-                    <td>@Html.Label("Data")</td>
+                    <td><b>@Html.Label("Data")</b></td>
                 </tr>
                 <tr>
                     <td>@Html.TextBoxFor(x => x.ExecutionTime, new { type = "datetime-local", required = true, style = "min-width:350px" })</td>
@@ -28,7 +28,7 @@
                     <td>@Html.TextBoxFor(x => x.IsCompleted, new { type = "hidden", value = false })</td>
                 </tr>
             </table>
-            <button style="background-color: dodgerblue; color: white; border-radius: 10px; border-color: aliceblue; font-size: 20px;" type="submit">Zapisz zadanie</button>
+            <button style="background-color: dodgerblue; color: white; border-radius: 10px; border-color: aliceblue; font-size: 20px; min-width: 350px" type="submit">Zapisz zadanie</button>
         }
     </fieldset>
 </div>
